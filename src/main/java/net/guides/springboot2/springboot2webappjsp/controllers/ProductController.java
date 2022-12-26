@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.owasp.esapi.ESAPI;
-import org.slf4j.Logger;
+import org.owasp.esapi.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +46,6 @@ public class ProductController {
     @GetMapping("/productById/{id}")
     public Product findProductById(@PathVariable int id) throws JsonProcessingException {
     	log.debug("Getting Products for  "+ESAPI.encoder().encodeForHTML(id+""));
-
     	Product p=service.getProductById(id);
     	ObjectMapper objectMapper = new ObjectMapper();
     	String carAsString = objectMapper.writeValueAsString(p);
@@ -57,7 +56,7 @@ public class ProductController {
 
     @GetMapping("/product/{name}")
     public Product findProductByName(@PathVariable String name) {
-    	log.debug("Retriving for  "+name);
+    	log.debug("Getting Products for Name   "+ESAPI.encoder().encodeForHTML(name));
         return service.getProductByName(name);
     }
 
@@ -76,5 +75,10 @@ public class ProductController {
     	ObjectMapper objectMapper = new ObjectMapper();
     	String carAsString = objectMapper.writeValueAsString(p);
     	System.out.println(carAsString);
+    	Encoder esapiEncoder=ESAPI.encoder();
+        String encodedEndpointURL = ESAPI.encoder().encodeForHTML("<td>xxxxxxxxxxxxxxx</td>");
+        System.out.println(encodedEndpointURL);
+
+    
 	}
 }
