@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.owasp.esapi.ESAPI;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class ProductController {
-
+  
     @Autowired
     private ProductService service;
 
@@ -43,7 +45,7 @@ public class ProductController {
 
     @GetMapping("/productById/{id}")
     public Product findProductById(@PathVariable int id) throws JsonProcessingException {
-    	log.debug("Getting Products for  "+id);
+    	log.debug("Getting Products for  "+ESAPI.encoder().encodeForHTML(id+""));
 
     	Product p=service.getProductById(id);
     	ObjectMapper objectMapper = new ObjectMapper();
