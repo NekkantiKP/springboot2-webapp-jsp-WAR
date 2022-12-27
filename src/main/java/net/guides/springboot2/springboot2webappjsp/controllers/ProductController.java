@@ -28,7 +28,8 @@ public class ProductController {
     private ProductService service;
 
     @PostMapping("/addProduct")
-    public Product addProduct(@Valid @RequestBody Product product) {
+    public Product addProduct(@Valid @RequestBody Product product) throws IllegalAccessException {
+    	log.debug("Adding Product is "+Sanitizer.Sanitize(product));
         return service.saveProduct(product);
     }
 
@@ -44,8 +45,8 @@ public class ProductController {
     }
 
     @GetMapping("/productById/{id}")
-    public Product findProductById(@PathVariable int id) throws JsonProcessingException {
-    	log.debug("Getting Products for  "+ESAPI.encoder().encodeForHTML(id+""));
+    public Product findProductById(@PathVariable int id) throws Exception {
+    	log.debug("Getting Products for  "+Sanitizer.Sanitize(id));
     	Product p=service.getProductById(id);
     	ObjectMapper objectMapper = new ObjectMapper();
     	String carAsString = objectMapper.writeValueAsString(p);
@@ -70,15 +71,16 @@ public class ProductController {
         return service.deleteProduct(id);
     }
     
-    public static void main(String[] args) throws JsonProcessingException {
+    public static void main(String[] args) throws Exception {
     	Product p=new Product();
+    	p.setName("<td>harahara");
     	ObjectMapper objectMapper = new ObjectMapper();
     	String carAsString = objectMapper.writeValueAsString(p);
     	System.out.println(carAsString);
-    	Encoder esapiEncoder=ESAPI.encoder();
-        String encodedEndpointURL = ESAPI.encoder().encodeForHTML("<td>xxxxxxxxxxxxxxx</td>");
+        String encodedEndpointURL = Sanitizer.Sanitize(null);
+        System.out.println(Sanitizer.Sanitize(1));
         System.out.println(encodedEndpointURL);
+        System.out.println(Sanitizer.Sanitize(p));
 
-    
 	}
 }
