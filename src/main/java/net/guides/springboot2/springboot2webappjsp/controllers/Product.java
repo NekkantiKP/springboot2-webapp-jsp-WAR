@@ -22,6 +22,10 @@ public class Product {
     private int quantity;
     
     private double price;
+    
+    @Pattern(regexp = "\\d{3}-\\d{7}", message="Invalid Zipcode")
+    // 3 digits - 7 digits
+    private String zipCode;
 	
     public int getId() {
 		return id;
@@ -46,6 +50,12 @@ public class Product {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public String getZipCode() {
+		return zipCode;
+	}
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
     
 }
